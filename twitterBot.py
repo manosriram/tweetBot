@@ -1,12 +1,10 @@
 import tweepy
 import textblob as TextBlob
 from tweepy.auth import OAuthHandler
-from tweepy.streaming import StreamListener
-from tweepy import Stream
 import time
-import jsonpickle
 
 # Secret User Data
+
 CONSUMER_KEY = "XXXXXXXXXXXXXXX"
 CONSUMER_SECRET = "XXXXXXXXXXXXXX"
 ACCESS_KEY = "XXXXXXXXXXXXXX"
@@ -24,6 +22,7 @@ file = open("tweetInfo.txt", "a")
 def updateStatus():
     msg = str(input("Tweet Message : "))
     api.update_status(msg)
+    print("\nTweet Posted!\n")
     file.write("\nTweet Posted!!\n Message : " + msg + '\n')
 
 
@@ -35,33 +34,35 @@ def searchHash():
         file.write(i.text + "   By -->   " + i.user.name + '\n')
 
 
+def searchUser():
+    y = str(input("enter name: @"))
+    u = api.get_user(y, include_entities=1)
+    print("\nName: " + u.name + "\nDescription: " + u.description +
+          "\nFollowers: " + str(u.followers_count) + "\nLocation: " + str(u.location) + "\nCreated: " + str(u.created_at) + "\n")
+    # print(u)
+
+
 user = api.me()
-name = user.name
 
-
-print("Username : " + user.name + "\n Friends Count : " +
+print("\n\nUsername : " + user.name + "\nFriends Count : " +
       str(user.friends_count) + "\nFollowers Count : " + str(user.followers_count) + "\nUser ID: " + str(user.id))
+print("\n\n")
 
-print("Choose One : \n1.Post a Tweet.\n2.Search for HashTags.3.Get User Info")
+while True:
+    print("Choose One : \n1.Post a Tweet.\n2.Search for HashTags.\n3.Get User Info.\n4.Exit\n")
+    response = int(input())
 
+    if response == 1:
+        updateStatus()
 
-resp = str(input("Post a Tweet ??(yes/no) : "))
-if resp == "yes":
-    updateStatus()
+    if response == 2:
+        searchHash()
 
-resp1 = str(input("Search Hastags? (yes/no) : "))
-if resp1 == "yes":
-    searchHash()
+    if response == 3:
+        searchUser()
 
-y = str(input("enter name: @"))
-y = "imVKohli"
-u = api.get_user(y, include_entities=1)
-print(u._json)
-# print("\nName: " + u.name + "\nDescription: " + u.description +
-#       "\nFollowers: " + str(u.followers_count) + "\n")
-
-for t in u:
-    print(t.status.text)
+    if response == 4:
+        exit(0)
 
 file.write("\n\n\n\n")
 file.close()
