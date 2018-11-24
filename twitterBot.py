@@ -37,8 +37,8 @@ def searchHash():
 def searchUser():
     y = str(input("enter name: @"))
     u = api.get_user(y, include_entities=1)
-    print("\nName: " + u.name + "\nDescription: " + u.description +
-          "\nFollowers: " + str(u.followers_count) + "\nLocation: " + str(u.location) + "\nCreated: " + str(u.created_at) + "\n")
+    file.write("\nName: " + u.name + "\nDescription: " + u.description +
+               "\nFollowers: " + str(u.followers_count) + "\nLocation: " + str(u.location) + "\nCreated: " + str(u.created_at) + "\n")
     # print(u)
 
 
